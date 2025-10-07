@@ -11,6 +11,8 @@
 
     <script src="https://unpkg.com/supersimpledev/babel.js"></script>
     <script type="text/babel">
+
+
       function ChatInput () {
         return (
           <>{/* Fragments */}
@@ -19,6 +21,7 @@
           </>
         );
       }
+
 
       function ChatMessage(props){ //{msg,sender} as a direct parameter //Note:{}
         const {msg,sender} = props; // const msg = props.msg; 
@@ -36,24 +39,67 @@
 
           return (
             <div>
-              {sender==="robot" && <img src="robotImg.png" width="50"/>}
+              {sender==="robot" && <img src="Chatbot-images/robotImg.png" width="50"/>}{/*Guard Operator && */}
               {msg} {/*Always runs}*/}
-              {sender==="user" && <img src="userImg.png" width = "50"/>}
+              {sender==="user" && <img src="Chatbot-images/userImg.png" width = "50"/>}
             </div>
           );
         }
 
-    const app = (
-        <>
-         <ChatInput /> {/*Component Syntax & Self-closing Tag*/}
-         <ChatMessage msg = "hello" sender = "user"/>
-         <ChatMessage msg = "Hello! How can I help you?" sender="robot"/>
-         <ChatMessage msg = "can you get me todays date?" sender = "user"/>
-         <ChatMessage msg = "today is October 6" sender="robot"/>
-        </>
-    )
+
+        function ChatMessages(){
+
+        const chatMessages = [
+          {
+            msg : "hello" ,
+            sender : "user",
+            id : "id1"
+          },
+        {
+          msg : "Hello! How can I help you?",
+          sender : "robot",
+          id : "id2"
+        },
+      {
+          msg : "can you get me todays date?",
+          sender : "user",
+          id : "id3"
+        },
+      {
+          msg : "today is October 6",
+          sender : "robot",
+          id : "id4"
+        }];
+
+        return (
+          <>
+            {chatMessages.map((chatMessage) => {
+                return(
+                  <ChatMessage 
+                    msg = {chatMessage.msg}
+                    sender = {chatMessage.sender}
+                    key = {chatMessage.id}
+                  />
+                )
+              })
+            }
+          </>
+        )
+        }
+
+
+        function App(){
+          return(
+              <>
+                <ChatInput />
+                <ChatMessages />
+              </>
+          );
+        }
+
+
       const container = document.querySelector('.js-container');
-      ReactDOM.createRoot(container).render(app);
+      ReactDOM.createRoot(container).render(<App />);
     </script>
   </body>
 </html>
