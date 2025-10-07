@@ -6,6 +6,18 @@
 
       body{
         font-family: Arial, Helvetica, sans-serif;
+        margin-top: 0px;
+        margin-bottom: 0px;
+      }
+
+      #title-bar{
+        width: 280px;
+        margin: auto;
+        margin-top: 10px;
+        font-weight: 700;
+        font-size: larger;
+        font-family: Arial, Helvetica, sans-serif;
+        color: rgb(59, 135, 176);
       }
 
       .send-button{
@@ -29,12 +41,16 @@
 
       .chat-input-container{
         display: flex;
+        margin-bottom: 60px;
       }
 
       .app-container{
         max-width: 600px;
         margin-left: auto;
         margin-right: auto;
+        height: 100vh; /*viewport height*/
+        display: flex;
+        flex-direction: column;
       }
 
       .chat-msg-user{
@@ -62,10 +78,17 @@
       .chat-msg-profile{
         width: 45px;
       }
+      .chat-msgs-container{
+        flex-grow: 1;
+        margin-top: 20px;
+        overflow: scroll;
+        scrollbar-width: none;
+      }
 
     </style>
   </head>
   <body>
+    <div id="title-bar">A Simple ChatBot Application</div>
     <div class="js-container"></div>
 
     <script src="https://unpkg.com/supersimpledev/react.js"></script>
@@ -143,8 +166,16 @@
 
         function ChatMessages({chatMessages}){
 
+          const chatMessagesRef = React.useRef(null , [] );
+
+          React.useEffect(()=>{ 
+            const containerElem = chatMessagesRef.current;    //useEffect is used to run our code after the component is created or updated
+            if(containerElem){
+              containerElem.scrollTop = containerElem.scrollHeight;
+            }
+          }, [chatMessages]);
         return (
-          <>
+          <div className = "chat-msgs-container" ref={chatMessagesRef}>
             {chatMessages.map((chatMessage) => {
                 return(
                   <ChatMessage 
@@ -155,7 +186,7 @@
                 )
               })
             }
-          </>
+          </div>
         )
         }
 
@@ -172,16 +203,6 @@
               msg : "Hello! How can I help you?",
               sender : "robot",
               id : "id2"
-            },
-          {
-              msg : "can you get me todays date?",
-              sender : "user",
-              id : "id3"
-            },
-          {
-              msg : "today is October 6",
-              sender : "robot",
-              id : "id4"
             }]
         )
         //const [chatMessages , setChatMessages] = array;  Array Destructing
@@ -190,8 +211,8 @@
 
           return(
               <div className="app-container">
-                <ChatInput chatMessages = {chatMessages} setChatMessages = {setChatMessages}/>
                 <ChatMessages chatMessages = {chatMessages}/>
+                <ChatInput chatMessages = {chatMessages} setChatMessages = {setChatMessages}/>
               </div>
           );
         }
