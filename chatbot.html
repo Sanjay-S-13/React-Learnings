@@ -2,6 +2,68 @@
 <html>
   <head>
     <title>React Basics</title>
+    <style>
+
+      body{
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      .send-button{
+        background-color: rgb(25, 135, 84);
+        color: white;
+        padding: 12px 20px;
+        margin-left: 10px;
+        border: none;
+        border-radius: 10px;
+        font-size: 15px;
+        cursor: pointer;
+      }
+
+      .chat-input{
+        padding: 12px 15px;
+        border-radius: 10px;
+        border-width: 1px;
+        font-size: 15px;  
+        flex-grow: 1;   
+      }
+
+      .chat-input-container{
+        display: flex;
+      }
+
+      .app-container{
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .chat-msg-user{
+        display: flex;
+        justify-content: end; /*right end */
+        align-items: start;
+        margin-top: 20px;
+      }
+
+      .chat-msg-robot{
+        display: flex;
+        align-items: start;
+        margin-top: 20px;
+      }
+      .chat-msg-text{
+        background-color: rgb(238, 238, 238);
+        padding: 15px 20px;
+        border-radius: 10px;
+        margin-right: 10px;
+        margin-left: 10px;
+        margin-bottom: 20px;
+        max-width: 300px;
+      }
+
+      .chat-msg-profile{
+        width: 45px;
+      }
+
+    </style>
   </head>
   <body>
     <div class="js-container"></div>
@@ -34,7 +96,8 @@
           setChatMessages(newChatMessages);
 
            const response = Chatbot.getResponse(inputText);
-           setChatMessages([...newChatMessages ,
+
+          setChatMessages([...newChatMessages ,
            {
             msg : response,
             sender : "robot",
@@ -46,10 +109,10 @@
         }
 
         return (
-          <>{/* Fragments */}
-            <input placeholder = "Send a message to the ChatBot" size = "30" onChange = {SaveInputText} value = {inputText}/>
-            <button onClick={sendMessage}>Send</button>
-          </>
+          <div className = "chat-input-container">{/* Fragments */}
+            <input className = "chat-input" placeholder = "Send a message to the ChatBot" size = "30" onChange = {SaveInputText} value = {inputText}/>
+            <button className = "send-button"onClick={sendMessage}>Send</button>
+          </div>
         );
       }
 
@@ -69,10 +132,10 @@
           */
 
           return (
-            <div>
-              {sender==="robot" && <img src="Chatbot-images/robotImg.png" width="50"/>}{/*Guard Operator && */}
-              {msg} {/*Always runs}*/}
-              {sender==="user" && <img src="Chatbot-images/userImg.png" width = "50"/>}
+            <div className = {sender === "user" ? "chat-msg-user" : "chat-msg-robot"}>
+              {sender==="robot" && <img src="Chatbot-images/robotImg.png" className = "chat-msg-profile"/>}{/*Guard Operator && */}
+              <div className = "chat-msg-text">{msg}</div> {/*Always runs}*/}
+              {sender==="user" && <img src="Chatbot-images/userImg.png" className = "chat-msg-profile"/>}
             </div>
           );
         }
@@ -126,10 +189,10 @@
         // const setChatMessages = array[1];
 
           return(
-              <>
+              <div className="app-container">
                 <ChatInput chatMessages = {chatMessages} setChatMessages = {setChatMessages}/>
                 <ChatMessages chatMessages = {chatMessages}/>
-              </>
+              </div>
           );
         }
 
