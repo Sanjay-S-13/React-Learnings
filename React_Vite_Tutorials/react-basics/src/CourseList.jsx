@@ -223,12 +223,17 @@ function CourseList(){
 
 
     useEffect(()=> {
-      fetch("https://jsonplaceholder.typicode.com/posts")
+      fetch("http://localhost:3000/courses")
         .then(response => {console.log(response)
          return response.json()})
 
-        .then(data => console.log(data))
+        .then(data => setCourses(data))
       },[])
+
+      if(!courses){
+        <></>
+      }
+      
   
     const coursesList = courses.map ((course) => 
     <Course key = {course.id}
