@@ -1,5 +1,5 @@
 import Course from './Course.jsx';
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 
 function CourseList(){
     const [courses , setCourses] = useState([
@@ -217,7 +217,19 @@ function CourseList(){
         setCourses(NewProductsList);
     }
 
+    // useEffect(()=>{
+    //   console.log("Worked when deletion gets in action");
+    // },[deleteParticualarCard]); //strictly you dont use useState var bcos you know the logic
 
+
+    useEffect(()=> {
+      fetch("https://jsonplaceholder.typicode.com/posts")
+        .then(response => {console.log(response)
+         return response.json()})
+
+        .then(data => console.log(data))
+      },[])
+  
     const coursesList = courses.map ((course) => 
     <Course key = {course.id}
             id = {course.id} 
